@@ -19,12 +19,7 @@ namespace seng
 			}
 		}
 		Window::~Window() { glfwTerminate(); }
-
-		char* Window::getVersion()
-		{
-			return (char*)glGetString(GL_VERSION);
-		}
-
+		
 		bool Window::init()
 		{
 			if (!glfwInit())
@@ -42,6 +37,12 @@ namespace seng
 
 			glfwMakeContextCurrent(m_window);
 			glfwSetWindowSizeCallback(m_window, windowResize);
+
+			if (glewInit() != GLEW_OK) //Init after context creation!
+			{
+				std::cout << "Cound not initialize glew!" << std::endl;
+				return false;
+			}
 
 			return true;
 		}

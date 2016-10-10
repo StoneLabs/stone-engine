@@ -1,4 +1,5 @@
 #pragma once
+#include <glew.h>
 #include <glfw3.h>
 
 namespace seng 
@@ -24,7 +25,7 @@ namespace seng
 			inline int getHeight() const { return m_height; }
 
 
-			static char* getVersion();
+			static inline char* getVersion() { return (char*)glGetString(GL_VERSION); }
 
 		private:
 			bool init();
