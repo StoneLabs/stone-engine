@@ -2,15 +2,16 @@
 #include <chrono>
 
 #include "src\graphics\window.h"
+#include "src\math\math.h"
 
 int main(int argc, char *args)
 {
-	using namespace seng;
-	using namespace graphics;
 	using namespace std::chrono;
+	using namespace seng::math;
+	using namespace seng::graphics;
 
 	Window window(800, 600, "Stone Engine - Test");
-	std::cout << Window::getVersion() << std::endl;
+	std::cout << window.getVersion() << std::endl;
 	
 	glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 
@@ -21,14 +22,11 @@ int main(int argc, char *args)
 	{
 		window.clear();
 
-		//glBegin(GL_QUADS);
+		if (window.isKeyPressed(GLFW_KEY_A)) std::cout << "Yop!" << std::endl;
+		if (window.isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) std::cout << "Yea!" << std::endl;
+		if (window.isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) std::cout << "(" << window.getCursorPositionX() << " | " << window.getCursorPositionY() << ")" << std::endl;
 
-		//glVertex2f(-0.5f, -0.5f);
-		//glVertex2f(-0.5f,  0.5f);
-		//glVertex2f( 0.5f,  0.5f);
-		//glVertex2f( 0.5f, -0.5f);
 
-		//glEnd();
 
 		window.update();
 
