@@ -3,39 +3,61 @@
 
 #include "src\graphics\window.h"
 #include "src\math\maths.h"
+#include "src\resource\ResourceLoader.h"
+#include "src\graphics\Shader.h"
 
 int main(int argc, char *args)
 {
 	using namespace std::chrono;
 	using namespace seng::math;
 	using namespace seng::graphics;
+	using namespace seng::resource;
 
-	Matrix4f translation = Matrix4f::translation(Vector3f(2, 3, 4));
-	translation *= Matrix4f::identity();
 	
-	translation[3] *= 2;
-
-	std::cout << translation[3] << std::endl;
-	std::cout << translation[3][0] << std::endl;
-
 	Window window(800, 600, "Stone Engine - Test");
 	std::cout << window.getVersion() << std::endl;
-	
 	glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
+
+
+	GLfloat vertices[] = 
+	{
+		-1, -1,  0,
+		-1,  1,  0,
+		 1,  1,  0,
+		-1, -1,  0,
+		 1,  1,  0,
+		 1, -1,  0
+	};
+
+	GLuint vbo;
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
+
+	Matrix4f ortho = Matrix4f::orthopgraphic(-2, 2, -2, 2, -1.0, 1.0);
+
+	Shader shader("./res/basic.vs", "./res/basic.fs");
+	shader.enable();
+
+	shader.setUniformMat4f("pr_matrix", ortho);
+	shader.setUniform2f("lightPos", Vector2f(0.4f, 0.2f));
+	shader.setUniform4f("colour", Vector4f(0.2f, 0.5f, 0.8f, 1.0f));
+
 
 	int frameCounter = 0;
 	steady_clock::time_point timeSinceStart = high_resolution_clock::now();
+
+	float x = 0;
 
 	while (!window.closed())
 	{
 		window.clear();
 
-		if (window.isKeyPressed(GLFW_KEY_A)) std::cout << "Yop!" << std::endl;
-		if (window.isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) std::cout << "Yea!" << std::endl;
-		if (window.isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT)) std::cout << "(" << window.getCursorPositionX() << " | " << window.getCursorPositionY() << ")" << std::endl;
-
-
-
+		shader.setUniformMat4f("ml_matrix", Matrix4f::rotation(x += 0.01, Vector3f(0, 0, 1)));
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		
 		window.update();
 
 		frameCounter++;
