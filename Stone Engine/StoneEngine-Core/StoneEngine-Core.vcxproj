@@ -82,7 +82,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -141,13 +141,16 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\graphics\window.cpp" />
+    <ClCompile Include="src\math\Matrix4f.cpp" />
     <ClCompile Include="src\math\Vector2f.cpp" />
     <ClCompile Include="src\math\Vector3f.cpp" />
     <ClCompile Include="src\math\Vector4f.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\window.h" />
-    <ClInclude Include="src\math\math.h" />
+    <ClInclude Include="src\math\MathFunctions.h" />
+    <ClInclude Include="src\math\maths.h" />
+    <ClInclude Include="src\math\Matrix4f.h" />
     <ClInclude Include="src\math\Vector2f.h" />
     <ClInclude Include="src\math\Vector3f.h" />
     <ClInclude Include="src\math\Vector4f.h" />

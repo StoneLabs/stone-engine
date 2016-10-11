@@ -2,13 +2,21 @@
 #include <chrono>
 
 #include "src\graphics\window.h"
-#include "src\math\math.h"
+#include "src\math\maths.h"
 
 int main(int argc, char *args)
 {
 	using namespace std::chrono;
 	using namespace seng::math;
 	using namespace seng::graphics;
+
+	Matrix4f translation = Matrix4f::translation(Vector3f(2, 3, 4));
+	translation *= Matrix4f::identity();
+	
+	translation[3] *= 2;
+
+	std::cout << translation[3] << std::endl;
+	std::cout << translation[3][0] << std::endl;
 
 	Window window(800, 600, "Stone Engine - Test");
 	std::cout << window.getVersion() << std::endl;

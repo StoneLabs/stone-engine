@@ -30,6 +30,9 @@
     <ClCompile Include="src\math\Vector4f.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\math\Matrix4f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\window.h">
@@ -44,7 +47,13 @@
     <ClInclude Include="src\math\Vector4f.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\math\math.h">
+    <ClInclude Include="src\math\Matrix4f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\maths.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\MathFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
