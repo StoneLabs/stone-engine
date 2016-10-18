@@ -12,14 +12,14 @@ namespace seng
 	namespace graphics
 	{
 		Shader::Shader(const char* vertPath, const char* fragPath) :
-			vertPath(vertPath), fragPath(fragPath)
+			m_vertPath(vertPath), m_fragPath(fragPath)
 		{
-			shaderID = load();
+			m_shaderID = load();
 		}
 
 		Shader::~Shader()
 		{
-			glDeleteProgram(shaderID);
+			glDeleteProgram(m_shaderID);
 		}
 
 		GLuint Shader::load()
@@ -30,8 +30,8 @@ namespace seng
 			GLuint vertex	= glCreateShader(GL_VERTEX_SHADER);
 			GLuint fragment	= glCreateShader(GL_FRAGMENT_SHADER);
 
-			std::string vertexCode = ResourceLoader::readFile(vertPath);
-			std::string fragmentCode = ResourceLoader::readFile(fragPath);
+			std::string vertexCode = ResourceLoader::readFile(m_vertPath);
+			std::string fragmentCode = ResourceLoader::readFile(m_fragPath);
 
 			const char *vertSource = vertexCode.c_str();
 			const char *fragSource = fragmentCode.c_str();
@@ -83,21 +83,21 @@ namespace seng
 			return program;
 		}
 
-		void Shader::enable() const { glUseProgram(shaderID); }
+		void Shader::enable() const { glUseProgram(m_shaderID); }
 		void Shader::disable() const { glUseProgram(0); }
 
 #pragma region Uniforms
 		GLint Shader::getUniformLocation(const GLchar *name)
 		{
-			return glGetUniformLocation(shaderID, name);
+			return glGetUniformLocation(m_shaderID, name);
 		}
 
-		void Shader::setUniform1f(const GLchar *name, float value)
+		void Shader::setUniform1f(const GLchar *name, const float value)
 		{
 			glUniform1f(getUniformLocation(name), value);
 		}
 
-		void Shader::setUniform1i(const GLchar *name, int value)
+		void Shader::setUniform1i(const GLchar *name, const int value)
 		{
 			glUniform1i(getUniformLocation(name), value);
 		}

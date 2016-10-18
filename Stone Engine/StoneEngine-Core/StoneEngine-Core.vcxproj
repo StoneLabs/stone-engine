@@ -94,6 +94,7 @@
       </IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
+      <Profile>true</Profile>
     </Link>
     <PostBuildEvent>
       <Command>rmdir "$(OutputPath)res\" /s /q
@@ -109,6 +110,7 @@ copy "$(ProjectDir)res\*" "$(OutputPath)res\"</Command>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -150,8 +152,12 @@ copy "$(ProjectDir)res\*" "$(OutputPath)res\"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\graphics\buffers\Buffer.cpp" />
+    <ClCompile Include="src\graphics\buffers\IndexBuffer.cpp" />
+    <ClCompile Include="src\graphics\buffers\VertexArray.cpp" />
+    <ClCompile Include="src\graphics\rendering\simple2Drenderer.cpp" />
     <ClCompile Include="src\graphics\Shader.cpp" />
-    <ClCompile Include="src\graphics\window.cpp" />
+    <ClCompile Include="src\graphics\Window.cpp" />
     <ClCompile Include="src\math\Matrix4f.cpp" />
     <ClCompile Include="src\math\Vector2f.cpp" />
     <ClCompile Include="src\math\Vector3f.cpp" />
@@ -159,8 +165,14 @@ copy "$(ProjectDir)res\*" "$(OutputPath)res\"</Command>
     <ClCompile Include="src\resource\ResourceLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\graphics\buffers\Buffer.h" />
+    <ClInclude Include="src\graphics\buffers\IndexBuffer.h" />
+    <ClInclude Include="src\graphics\buffers\VertexArray.h" />
+    <ClInclude Include="src\graphics\rendering\Renderable2D.h" />
+    <ClInclude Include="src\graphics\rendering\Renderer2D.h" />
     <ClInclude Include="src\graphics\Shader.h" />
-    <ClInclude Include="src\graphics\window.h" />
+    <ClInclude Include="src\graphics\rendering\simple2Drenderer.h" />
+    <ClInclude Include="src\graphics\Window.h" />
     <ClInclude Include="src\math\MathFunctions.h" />
     <ClInclude Include="src\math\maths.h" />
     <ClInclude Include="src\math\Matrix4f.h" />

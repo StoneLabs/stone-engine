@@ -10,15 +10,15 @@ namespace seng
 		class Shader
 		{
 		private:
-			GLuint shaderID;
-			const char *vertPath, *fragPath;
+			GLuint m_shaderID;
+			const char *m_vertPath, *m_fragPath;
 
 		public:
 			Shader(const char* vertPath, const char* fragPath);
 			~Shader();
 
-			void setUniform1f(const GLchar *name, float value);
-			void setUniform1i(const GLchar *name, int value);
+			void setUniform1f(const GLchar *name, const float value);
+			void setUniform1i(const GLchar *name, const int value);
 			void setUniform2f(const GLchar *name, const math::Vector2f &vector);
 			void setUniform3f(const GLchar *name, const math::Vector3f &vector);
 			void setUniform4f(const GLchar *name, const math::Vector4f &vector);
