@@ -1,16 +1,17 @@
 #pragma once
 
 #include <deque>
+#include "StaticSprite.h"
 #include "Renderer2D.h"
 
 namespace seng
 {
 	namespace graphics
 	{
-		class Simple2DRenderer : Renderer2D
+		class SimpleRenderer2D : Renderer2D
 		{
 		private:
-			std::deque<const Renderable2D*> m_renderQueue;
+			std::deque<const StaticSprite*> m_renderQueue;
 
 		public:
 			void submit(const Renderable2D *renderable) override;

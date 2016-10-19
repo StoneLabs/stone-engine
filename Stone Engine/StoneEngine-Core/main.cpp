@@ -12,10 +12,41 @@
 
 #include "src/graphics/rendering/Renderer2D.h"
 #include "src/graphics/rendering/Renderable2D.h"
-#include "src/graphics/rendering/simple2Drenderer.h"
+#include "src/graphics/rendering/SimpleRenderer2D.h"
+#include "src/graphics/rendering/StaticSprite.h"
+#include "src/graphics/rendering/Sprite.h"
+#include "src/graphics/rendering/BatchRenderer2D.h"
+
+#include <time.h>
+#include <vector>
+
+#define BATCH_RENDERER 1
+
+#define X_RESOLUTION 120.0f
+#define Y_RESOLUTION 120.0f
+#define XDISTANCE 0.005f
+#define YDISTANCE 0.005f
+
+#if BATCH_RENDERER
+#define SPRITE_TYPE Sprite
+#define RENDERER_TYPE BatchRenderer2D
+#define RENDERER_TYPES "BatchRenderer2D"
+#define SHADER_ADDITION
+#define RENDERER_BEGIN renderer.begin();
+#define RENDERER_END renderer.end();
+#else
+#define SPRITE_TYPE StaticSprite
+#define RENDERER_TYPE SimpleRenderer2D
+#define RENDERER_TYPES "SimpleRenderer2D"
+#define SHADER_ADDITION , shader
+#define RENDERER_BEGIN 
+#define RENDERER_END 
+#endif
+
 
 int main(int argc, char *args)
 {
+	using namespace std;
 	using namespace std::chrono;
 	using namespace seng::math;
 	using namespace seng::graphics;
@@ -23,7 +54,7 @@ int main(int argc, char *args)
 
 	Window window(800, 600, "Stone Engine - Test");
 	std::cout << window.getVersion() << std::endl;
-	glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	Matrix4f ortho = Matrix4f::orthopgraphic(-2, 2, -2, 2, -1.0, 1.0);
 
@@ -31,10 +62,26 @@ int main(int argc, char *args)
 	shader.enable();
 	shader.setUniformMat4f("pr_matrix", ortho);
 
-	Renderable2D sprite1(Vector3f(-1, 0, 0), Vector2f(2, 2.0f), Vector4f(1, 0, 0, 1), shader);
-	Renderable2D sprite2(Vector3f(0, -2, 0), Vector2f(1, 1.5f), Vector4f(0, 0, 1, 1), shader);
-	Simple2DRenderer renderer;
+	vector<SPRITE_TYPE*> sprites;
+	srand(time(NULL));
 
+	for (float x = -2; x < 2; x += 4 / X_RESOLUTION)
+		for (float y = -2; y < 2; y += 4 / Y_RESOLUTION)
+		{
+			sprites.push_back(
+				new SPRITE_TYPE(x, y, (4 / X_RESOLUTION - XDISTANCE), (4 / Y_RESOLUTION - YDISTANCE),
+					Vector4f(rand() % 1000 / 1000.0f, 0.1f, 1, 1) SHADER_ADDITION)
+				);
+		}
+
+	RENDERER_TYPE renderer;
+
+	std::cout << "Rendering " << sprites.size() << " sprites using the " << RENDERER_TYPES << std::endl;
+	std::cout << "X-Offset: " << 4 / X_RESOLUTION << std::endl;
+	std::cout << "X-Width:  " << 4 / X_RESOLUTION - XDISTANCE << std::endl;
+	std::cout << "Y-Offset: " << 4 / Y_RESOLUTION << std::endl;
+	std::cout << "Y-Width:  " << 4 / Y_RESOLUTION - YDISTANCE << std::endl;
+	
 	int frameCounter = 0;
 	steady_clock::time_point timeSinceStart = high_resolution_clock::now();
 
@@ -50,8 +97,12 @@ int main(int argc, char *args)
 
 		shader.setUniform2f("lightPos", Vector2f(MouseX / window.getWidth() * 2 - 1, -(MouseY / window.getHeight() * 2 - 1)));
 		
-		renderer.submit(&sprite1);
-		renderer.submit(&sprite2);
+		RENDERER_BEGIN
+		for (int i = 0; i < sprites.size(); i++)
+		{
+			renderer.submit(sprites[i]);
+		}
+		RENDERER_END
 		renderer.flush();
 		
 		window.update();

@@ -48,7 +48,16 @@
     <ClCompile Include="src\graphics\buffers\VertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics\rendering\simple2Drenderer.cpp">
+    <ClCompile Include="src\graphics\rendering\simpleRenderer2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\rendering\BatchRenderer2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\rendering\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics\rendering\StaticSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,7 +104,16 @@
     <ClInclude Include="src\graphics\rendering\Renderer2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphics\rendering\simple2Drenderer.h">
+    <ClInclude Include="src\graphics\rendering\simpleRenderer2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\rendering\BatchRenderer2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\rendering\Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphics\rendering\StaticSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
