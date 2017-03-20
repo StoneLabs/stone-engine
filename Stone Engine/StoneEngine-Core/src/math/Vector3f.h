@@ -8,8 +8,6 @@
 #define _SENG_IS_DEFINED_VECTOR3F
 #include <iostream>
 
-
-
 namespace seng
 {
 	namespace math

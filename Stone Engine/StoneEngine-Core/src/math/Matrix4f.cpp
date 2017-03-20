@@ -105,6 +105,8 @@ namespace seng
 #pragma region operators
 		Matrix4f& Matrix4f::multiply(const Matrix4f &other)
 		{
+			float data[16];
+
 			for (int y = 0; y < MATRIX_EDGE_LENGTH; y++)
 				for (int x = 0; x < MATRIX_EDGE_LENGTH; x++)
 				{
@@ -112,9 +114,10 @@ namespace seng
 					for (int e = 0; e < MATRIX_EDGE_LENGTH; e++)
 						sum += elements[x + e * MATRIX_EDGE_LENGTH] * other.elements[e + y * MATRIX_EDGE_LENGTH];
 
-					elements[x + y * MATRIX_EDGE_LENGTH] = sum;
+					data[x + y * MATRIX_EDGE_LENGTH] = sum;
 				}
 
+			memcpy(elements, data, 16);
 			return *this;
 		}
 

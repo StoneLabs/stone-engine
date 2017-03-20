@@ -2,7 +2,6 @@
 #pragma message ( "warning: Including single math classes is not supported. All math classes will be included. To suppress this warning import maths.h!" )
 #endif
 
-
 #include "maths.h"
 
 #if !defined(_SENG_IS_DEFINED_VECTOR4F)

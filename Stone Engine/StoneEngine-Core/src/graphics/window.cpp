@@ -47,6 +47,7 @@ namespace seng
 			glfwSetKeyCallback(m_window, key_callback);
 			glfwSetMouseButtonCallback(m_window, mouse_button_callback);
 			glfwSetCursorPosCallback(m_window, mouse_cursor_position_callback);
+			glfwSwapInterval(0.0); //Disable V-Sync
 
 			if (glewInit() != GLEW_OK) //Init after context creation!
 			{

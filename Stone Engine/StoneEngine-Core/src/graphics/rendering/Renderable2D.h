@@ -13,7 +13,7 @@ namespace seng
 		struct VertexData
 		{
 			math::Vector3f vertex;
-			math::Vector4f color;
+			unsigned int color;
 		};
 
 		class Renderable2D

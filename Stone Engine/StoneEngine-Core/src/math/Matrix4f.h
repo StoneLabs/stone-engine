@@ -7,8 +7,6 @@
 #if !defined(_SENG_IS_DEFINED_MATRIX4f)
 #define _SENG_IS_DEFINED_MATRIX4f
 
-#include "maths.h"
-
 namespace seng
 {
 	namespace math

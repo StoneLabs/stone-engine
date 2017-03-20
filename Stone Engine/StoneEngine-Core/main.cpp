@@ -17,7 +17,8 @@
 #include "src/graphics/rendering/Sprite.h"
 #include "src/graphics/rendering/BatchRenderer2D.h"
 
-#include <time.h>
+#include "src/utils/timer.h"
+
 #include <vector>
 
 #define BATCH_RENDERER 1
@@ -33,6 +34,7 @@ int main(int argc, char *args)
 {
 	using namespace std;
 	using namespace std::chrono;
+	using namespace seng;
 	using namespace seng::math;
 	using namespace seng::graphics;
 	using namespace seng::resource;
@@ -49,8 +51,7 @@ int main(int argc, char *args)
 
 	vector<Renderable2D*> sprites;
 	srand(time(NULL));
-
-	int i = 0;
+	
 	for (float y = 0; y < 9.0f; y += 0.05)
 	{
 		for (float x = 0; x < 16.0f; x += 0.05)
@@ -60,9 +61,9 @@ int main(int argc, char *args)
 #else
 			sprites.push_back(new StaticSprite(x, y, 0.04f, 0.04f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1), shader));
 #endif
-			i++;
 		}
 	}
+	int size = sprites.size();
 
 
 #if BATCH_RENDERER
@@ -70,14 +71,14 @@ int main(int argc, char *args)
 #else
 	SimpleRenderer2D  renderer;
 #endif
-	std::cout << "Rendering " << sprites.size() << " [" << i << "] sprites using the " << RENDERER_TYPES << std::endl;
+	std::cout << "Rendering " << size << " sprites using the " << RENDERER_TYPES << std::endl;
 	
-	int frameCounter = 0;
-	steady_clock::time_point timeSinceStart = high_resolution_clock::now();
-
 	float x = 0;
 	double MouseX = window.getWidth()/2, MouseY = window.getHeight()/2;
 
+	Timer time;
+	float timer = 0;
+	unsigned short frames = 0;
 	while (!window.closed())
 	{
 		window.clear();
@@ -90,7 +91,7 @@ int main(int argc, char *args)
 #if BATCH_RENDERER
 		renderer.begin();
 #endif
-		for (int i = 0; i < sprites.size(); i++)
+		for (int i = 0; i < size; i++)
 		{
 			renderer.submit(sprites[i]);
 		}
@@ -100,13 +101,13 @@ int main(int argc, char *args)
 		renderer.flush();
 		
 		window.update();
-
-		frameCounter++;
-		if ((high_resolution_clock::now() - timeSinceStart).count() > 1000000000)
+		
+		frames++;
+		if (time.elapsed() - timer > 1.0f)
 		{
-			std::cout << "FPS: " << frameCounter << std::endl;
-			timeSinceStart = high_resolution_clock::now();
-			frameCounter = 0;
+			timer += 1.0f;
+			printf("FPS: %d\n", frames);
+			frames = 0;
 		}
 	}
 

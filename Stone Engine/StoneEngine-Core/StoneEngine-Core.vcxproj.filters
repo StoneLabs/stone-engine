@@ -80,9 +80,6 @@
     <ClInclude Include="src\math\maths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\math\MathFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\resource\ResourceLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -114,6 +111,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\graphics\rendering\StaticSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
