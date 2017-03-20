@@ -20,7 +20,7 @@ namespace seng
 #pragma region static matrix stuff
 		Matrix4f Matrix4f::identity() { return Matrix4f(1.0f); }
 
-		Matrix4f Matrix4f::orthopgraphic(float left, float right, float bottom, float top, float near, float far)
+		Matrix4f Matrix4f::orthographic(float left, float right, float bottom, float top, float near, float far)
 		{
 			Matrix4f result(1.0f);
 

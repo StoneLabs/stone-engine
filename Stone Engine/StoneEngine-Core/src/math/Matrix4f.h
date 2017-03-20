@@ -28,7 +28,7 @@ namespace seng
 			Matrix4f(float diagonal);
 
 			static Matrix4f identity();
-			static Matrix4f orthopgraphic(float left, float right, float bottom, float top, float near, float far);
+			static Matrix4f orthographic(float left, float right, float bottom, float top, float near, float far);
 			static Matrix4f perspective(float fov, float aspectRatio, float near, float far);
 
 			static Matrix4f translation(const Vector3f &translation);
