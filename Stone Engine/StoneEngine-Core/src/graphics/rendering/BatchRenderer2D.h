@@ -17,7 +17,7 @@ namespace seng
 #define SHADER_VERTEX_INDEX 0
 #define SHADER_COLOR_INDEX	1
 
-		class BatchRenderer2D : Renderer2D
+		class BatchRenderer2D : public Renderer2D
 		{
 		private:
 			GLuint m_VAO;
@@ -30,8 +30,8 @@ namespace seng
 			BatchRenderer2D();
 			~BatchRenderer2D();
 
-			void begin();
-			void end();
+			void begin() override;
+			void end() override;
 			void submit(const Renderable2D *renderable) override;
 			void flush() override;
 

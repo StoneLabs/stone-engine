@@ -176,6 +176,8 @@ copy "$(ProjectDir)res\*" "$(OutputPath)res\"</Command>
     <ClCompile Include="src\graphics\buffers\Buffer.cpp" />
     <ClCompile Include="src\graphics\buffers\IndexBuffer.cpp" />
     <ClCompile Include="src\graphics\buffers\VertexArray.cpp" />
+    <ClCompile Include="src\graphics\layers\Layer.cpp" />
+    <ClCompile Include="src\graphics\layers\TileLayer.cpp" />
     <ClCompile Include="src\graphics\rendering\BatchRenderer2D.cpp" />
     <ClCompile Include="src\graphics\rendering\SimpleRenderer2D.cpp" />
     <ClCompile Include="src\graphics\rendering\Sprite.cpp" />
@@ -192,6 +194,8 @@ copy "$(ProjectDir)res\*" "$(OutputPath)res\"</Command>
     <ClInclude Include="src\graphics\buffers\Buffer.h" />
     <ClInclude Include="src\graphics\buffers\IndexBuffer.h" />
     <ClInclude Include="src\graphics\buffers\VertexArray.h" />
+    <ClInclude Include="src\graphics\layers\Layer.h" />
+    <ClInclude Include="src\graphics\layers\TileLayer.h" />
     <ClInclude Include="src\graphics\rendering\BatchRenderer2D.h" />
     <ClInclude Include="src\graphics\rendering\Renderable2D.h" />
     <ClInclude Include="src\graphics\rendering\Renderer2D.h" />

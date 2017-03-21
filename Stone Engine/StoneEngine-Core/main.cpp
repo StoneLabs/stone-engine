@@ -17,9 +17,14 @@
 #include "src/graphics/rendering/Sprite.h"
 #include "src/graphics/rendering/BatchRenderer2D.h"
 
+#include "src/graphics/layers/TileLayer.h"
+
 #include "src/utils/timer.h"
 
 #include <vector>
+
+#define WINDOW_WIDTH 960
+#define WINDOW_HEIGHT 540
 
 #define BATCH_RENDERER 1
 
@@ -39,41 +44,21 @@ int main(int argc, char *args)
 	using namespace seng::graphics;
 	using namespace seng::resource;
 
-	Window window(960, 540, "Stone Engine - Test");
+	Window window(WINDOW_WIDTH, WINDOW_HEIGHT, "Stone Engine - Test");
 	std::cout << window.getVersion() << std::endl;
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-	Matrix4f ortho = Matrix4f::orthographic(0.0f, 16.0f, 0.0f, 9.0f, -1.0f, 1.0f);
+	Shader* shader = new Shader("./res/basic.vs", "./res/basic.fs");
 
-	Shader shader("./res/basic.vs", "./res/basic.fs");
-	shader.enable();
-	shader.setUniformMat4f("pr_matrix", ortho);
-
-	vector<Renderable2D*> sprites;
-	srand(time(NULL));
-	
-	for (float y = 0; y < 9.0f; y += 0.05)
+	TileLayer layer(shader);
+	for (float y = -9.0f; y < 9.0f; y += 0.1)
 	{
-		for (float x = 0; x < 16.0f; x += 0.05)
+		for (float x = -16.0f; x < 16.0f; x += 0.1)
 		{
-#if BATCH_RENDERER
-			sprites.push_back(new Sprite(x, y, 0.04f, 0.04f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1)));
-#else
-			sprites.push_back(new StaticSprite(x, y, 0.04f, 0.04f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1), shader));
-#endif
+			layer.add(new Sprite(x, y, 0.08f, 0.08f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1)));
 		}
 	}
-	int size = sprites.size();
 
-
-#if BATCH_RENDERER
-	BatchRenderer2D renderer;
-#else
-	SimpleRenderer2D  renderer;
-#endif
-	std::cout << "Rendering " << size << " sprites using the " << RENDERER_TYPES << std::endl;
-	
-	float x = 0;
 	double MouseX = window.getWidth()/2, MouseY = window.getHeight()/2;
 
 	Timer time;
@@ -85,21 +70,10 @@ int main(int argc, char *args)
 
 		if (window.isMouseButtonPressed(0))
 			window.getCursorPosition(MouseX, MouseY);
+		shader->setUniform2f("lightPos", Vector2f(MouseX / WINDOW_WIDTH * 2 - 1, -(MouseY / WINDOW_HEIGHT * 2 - 1)));
 
-		shader.setUniform2f("lightPos", Vector2f(MouseX / window.getWidth() * 2 - 1, -(MouseY / window.getHeight() * 2 - 1)));
+		layer.render();
 
-#if BATCH_RENDERER
-		renderer.begin();
-#endif
-		for (int i = 0; i < size; i++)
-		{
-			renderer.submit(sprites[i]);
-		}
-#if BATCH_RENDERER
-		renderer.end();
-#endif
-		renderer.flush();
-		
 		window.update();
 		
 		frames++;
@@ -110,6 +84,6 @@ int main(int argc, char *args)
 			frames = 0;
 		}
 	}
-
+	
 	return 0;
 }
