@@ -25,12 +25,12 @@ namespace seng
 			Matrix4f result(1.0f);
 
 			result.elements[0 + 0 * 4] = 2.0f / (right - left);
-			result.elements[1 + 1 * 4] = 2.0f / (top   - bottom);
-			result.elements[2 + 2 * 4] = 2.0f / (near  - far);
+			result.elements[1 + 1 * 4] = 2.0f / (top - bottom);
+			result.elements[2 + 2 * 4] = 2.0f / (near - far);
 
-			result.elements[0 + 3 * 4] = (left   + right) / (left   - right);
-			result.elements[1 + 3 * 4] = (bottom + top)   / (bottom - top);
-			result.elements[2 + 3 * 4] = (far    + near)  / (far    - near);
+			result.elements[0 + 3 * 4] = (left + right) / (left - right);
+			result.elements[1 + 3 * 4] = (bottom + top) / (bottom - top);
+			result.elements[2 + 3 * 4] = (far + near) / (far - near);
 
 			return result;
 		}
@@ -117,14 +117,34 @@ namespace seng
 					data[x + y * MATRIX_EDGE_LENGTH] = sum;
 				}
 
-			memcpy(elements, data, 16);
+			memcpy(elements, data, MATRIX_LENGTH * sizeof(float));
 			return *this;
 		}
+		Vector4f Matrix4f::multiply(const Vector4f &other) const
+		{
+			return Vector4f(
+				columns[0].x * other.x + columns[1].x * other.y + columns[2].x * other.z + columns[3].x * other.w,
+				columns[0].y * other.x + columns[1].y * other.y + columns[2].y * other.z + columns[3].y * other.w,
+				columns[0].z * other.x + columns[1].z * other.y + columns[2].z * other.z + columns[3].z * other.w,
+				columns[0].w * other.x + columns[1].w * other.y + columns[2].w * other.z + columns[3].w * other.w
+				);
+		}
+		Vector3f Matrix4f::multiply(const Vector3f &other) const
+		{
+			return Vector3f(
+				columns[0].x * other.x + columns[1].x * other.y + columns[2].x * other.z + columns[3].x * 1,
+				columns[0].y * other.x + columns[1].y * other.y + columns[2].y * other.z + columns[3].y * 1,
+				columns[0].z * other.x + columns[1].z * other.y + columns[2].z * other.z + columns[3].z * 1
+				);
+		}
+
 
 		Vector4f& Matrix4f::operator[](const int column) { return columns[column]; }
 
 		Matrix4f& Matrix4f::operator*=(const Matrix4f &right) { return multiply(right); }
 		Matrix4f operator*(Matrix4f left, const Matrix4f &right) { return left.multiply(right); }
+		Vector3f operator*(const Matrix4f &left, const Vector3f &right) { return left.multiply(right); }
+		Vector4f operator*(const Matrix4f &left, const Vector4f &right) { return left.multiply(right); }
 #pragma endregion
 	}
 }

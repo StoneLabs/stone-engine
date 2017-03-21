@@ -109,8 +109,8 @@ namespace seng
 		Vector4f& Vector4f::operator-=(const Vector4f &right) { return sub(right); }
 		Vector4f& Vector4f::operator*=(const Vector4f &right) { return mul(right); }
 		Vector4f& Vector4f::operator/=(const Vector4f &right) { return div(right); }
-		bool	  Vector4f::operator==(const Vector4f &right) { return this->x == right.x && this->y == right.y && this->z == right.z && this->w == right.w; }
-		bool	  Vector4f::operator!=(const Vector4f &right) { return this->x != right.x || this->y != right.y || this->z != right.z || this->w != right.w; }
+		bool	  Vector4f::operator==(const Vector4f &right) const { return this->x == right.x && this->y == right.y && this->z == right.z && this->w == right.w; }
+		bool	  Vector4f::operator!=(const Vector4f &right) const { return this->x != right.x || this->y != right.y || this->z != right.z || this->w != right.w; }
 		float&	  Vector4f::operator[](const int element) { return elements[element]; }
 
 		std::ostream& operator<<(std::ostream& stream, const Vector4f& vector)

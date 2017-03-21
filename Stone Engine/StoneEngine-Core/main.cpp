@@ -26,6 +26,8 @@
 #define WINDOW_WIDTH 960
 #define WINDOW_HEIGHT 540
 
+#define TEST_50K_SPRITES 1
+
 #define BATCH_RENDERER 1
 
 #if BATCH_RENDERER
@@ -51,6 +53,7 @@ int main(int argc, char *args)
 	Shader* shader = new Shader("./res/basic.vs", "./res/basic.fs");
 
 	TileLayer layer(shader);
+#if TEST_50K_SPRITES
 	for (float y = -9.0f; y < 9.0f; y += 0.1)
 	{
 		for (float x = -16.0f; x < 16.0f; x += 0.1)
@@ -58,6 +61,15 @@ int main(int argc, char *args)
 			layer.add(new Sprite(x, y, 0.08f, 0.08f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1)));
 		}
 	}
+#else
+	for (float y = -9.0f; y < 9.0f; y ++)
+	{
+		for (float x = -16.0f; x < 16.0f; x ++)
+		{
+			layer.add(new Sprite(x, y, 0.8f, 0.8f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1)));
+		}
+	}
+#endif
 
 	double MouseX = window.getWidth()/2, MouseY = window.getHeight()/2;
 

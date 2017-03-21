@@ -41,8 +41,8 @@ namespace seng
 			Vector4f& operator-=(const Vector4f &right);
 			Vector4f& operator*=(const Vector4f &right);
 			Vector4f& operator/=(const Vector4f &right);
-			bool	  operator==(const Vector4f &right);
-			bool	  operator!=(const Vector4f &right);
+			bool	  operator==(const Vector4f &right) const;
+			bool	  operator!=(const Vector4f &right) const;
 			float&	  operator[](const int element);
 
 			friend Vector4f operator+(Vector4f left, const float &right);

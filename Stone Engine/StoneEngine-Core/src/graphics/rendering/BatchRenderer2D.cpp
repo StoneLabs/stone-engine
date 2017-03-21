@@ -76,19 +76,19 @@ namespace seng
 			int a = color.w * 255;
 			unsigned int c = a << 24 | b << 16 | g << 8 | r;
 
-			m_buffer->vertex = position;
+			m_buffer->vertex = *m_transformationBack * position;
 			m_buffer->color = c;
 			m_buffer++;
 
-			m_buffer->vertex = Vector3f(position.x, position.y + size.y, position.z);
+			m_buffer->vertex = *m_transformationBack * Vector3f(position.x, position.y + size.y, position.z);
 			m_buffer->color = c;
 			m_buffer++;
 
-			m_buffer->vertex = Vector3f(position.x + size.x, position.y + size.y, position.z);
+			m_buffer->vertex = *m_transformationBack * Vector3f(position.x + size.x, position.y + size.y, position.z);
 			m_buffer->color = c;
 			m_buffer++;
 
-			m_buffer->vertex = Vector3f(position.x + size.x, position.y, position.z);
+			m_buffer->vertex = *m_transformationBack * Vector3f(position.x + size.x, position.y, position.z);
 			m_buffer->color = c;
 			m_buffer++;
 
