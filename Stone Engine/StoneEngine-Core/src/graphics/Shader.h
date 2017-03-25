@@ -1,7 +1,12 @@
 #pragma once
 
+#include <string>
 #include <glew.h>
-#include "..\math\maths.h"
+#include <vector>
+#include <iostream>
+#include <glew.h>
+#include "../math/maths.h"
+#include "../resource/ResourceLoader.h"
 
 namespace seng
 {

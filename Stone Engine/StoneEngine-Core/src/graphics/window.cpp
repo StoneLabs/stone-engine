@@ -51,7 +51,7 @@ namespace seng
 
 			if (glewInit() != GLEW_OK) //Init after context creation!
 			{
-				std::cout << "Cound not initialize glew!" << std::endl;
+				std::cout << "Could not initialize glew!" << std::endl;
 				return false;
 			}
 

@@ -1,11 +1,4 @@
-#include <string>
-#include <glew.h>
-#include <vector>
-#include <iostream>
-
 #include "Shader.h"
-#include "../resource/ResourceLoader.h"
-#include "../math/maths.h"
 
 namespace seng
 {

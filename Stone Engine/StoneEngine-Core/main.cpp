@@ -1,3 +1,5 @@
+#include "src/utils/timer.h"
+
 #include "src/graphics/buffers/Buffer.h"
 #include "src/graphics/buffers/IndexBuffer.h"
 #include "src/graphics/buffers/VertexArray.h"
@@ -11,13 +13,13 @@
 #include "src/graphics/rendering/SimpleRenderer2D.h"
 #include "src/graphics/rendering/Sprite.h"
 #include "src/graphics/rendering/StaticSprite.h"
+#include "src/graphics/rendering/Texture.h"
 
 #include "src/graphics/Shader.h"
 #include "src/graphics/window.h"
 
 #include "src/math/maths.h"
 #include "src/resource/ResourceLoader.h"
-#include "src/utils/timer.h"
 
 #include <chrono>
 #include <iostream>
@@ -25,16 +27,6 @@
 
 #define WINDOW_WIDTH 960
 #define WINDOW_HEIGHT 540
-
-#define TEST_50K_SPRITES 1
-
-#define BATCH_RENDERER 1
-
-#if BATCH_RENDERER
-#define RENDERER_TYPES "BatchRenderer2D"
-#else
-#define RENDERER_TYPES "SimpleRenderer2D"
-#endif
 
 int main(int argc, char *args)
 {
@@ -51,40 +43,23 @@ int main(int argc, char *args)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	Shader* sceneShader = new Shader("./res/basic.vs", "./res/basic.fs");
-	Shader* guiShader = new Shader("./res/simple.vs", "./res/simple.fs");
-
 	TileLayer scene(sceneShader);
-	TileLayer gui(guiShader);
-
-#pragma region SCENE
-#if TEST_50K_SPRITES
-	for (float y = -9.0f; y < 9.0f; y += 0.1f)
+	for (float y = -9.0f; y < 9.0f; y ++)
 	{
-		for (float x = -16.0f; x < 16.0f; x += 0.1f)
+		for (float x = -16.0f; x < 16.0f; x ++)
 		{
-			scene.add(new Sprite(x, y, 0.08f, 0.08f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1)));
+			scene.add(new Sprite(x, y, 0.9f, 0.9f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1)));
 		}
 	}
-#else
-	for (float y = -9.0f; y < 9.0f; y++)
-	{
-		for (float x = -16.0f; x < 16.0f; x++)
-		{
-			scene.add(new Sprite(x, y, 0.8f, 0.8f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1)));
-		}
-	}
-#endif
-#pragma endregion
 
-#pragma region GUI
-	Group* button = new Group(Matrix4f::translation(Vector3f(-15.0f, 5.0f, 0.0f)));
-	button->add(new Sprite(0, 0, 6, 3, Vector4f(0.3f, 0.3f, 0.3f, 1.0f)));
-	button->add(new Sprite(0.5f, 0.5f, 5, 2, Vector4f(0.8f, 0.1f, 0.8f, 1.0f)));
-	gui.add(button);
-#pragma endregion
+	glActiveTexture(GL_TEXTURE0);
+	Texture texture("./res/test.png");
+	texture.bind();
+
+	sceneShader->enable();
+	sceneShader->setUniform1i("tex", 0);
 
 	double MouseX = window.getWidth() / 2, MouseY = window.getHeight() / 2;
-
 	Timer time;
 	float timer = 0;
 	unsigned short frames = 0;
@@ -97,9 +72,7 @@ int main(int argc, char *args)
 
 		scene.render();
 		sceneShader->setUniform2f("lightPos", Vector2f((float)MouseX / WINDOW_WIDTH * 2 - 1, -((float)MouseY / WINDOW_HEIGHT * 2 - 1)));
-
-		gui.render();
-
+		
 		window.update();
 
 		frames++;
