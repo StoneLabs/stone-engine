@@ -70,10 +70,10 @@ namespace seng
 			const Vector2f &size = renderable->getSize();
 			const Vector4f &color = renderable->getColor();
 
-			int r = color.x * 255;
-			int g = color.y * 255;
-			int b = color.z * 255;
-			int a = color.w * 255;
+			int r = (int)(color.x * 255);
+			int g = (int)(color.y * 255);
+			int b = (int)(color.z * 255);
+			int a = (int)(color.w * 255);
 			unsigned int c = a << 24 | b << 16 | g << 8 | r;
 
 			m_buffer->vertex = *m_transformationBack * position;

@@ -5,6 +5,7 @@
 #include "..\buffers\VertexArray.h"
 #include "..\Shader.h"
 #include "..\..\math\maths.h"
+#include "Renderer2D.h"
 
 namespace seng
 {
@@ -23,11 +24,18 @@ namespace seng
 			math::Vector2f m_size;
 			math::Vector4f m_color;
 
+		protected:
+			Renderable2D() { }
 		public:
 			Renderable2D(math::Vector3f position, math::Vector2f size, math::Vector4f color)
 				: m_position(position), m_size(size), m_color(color) { }
 
 			virtual ~Renderable2D() {}
+
+			virtual void submit(Renderer2D* renderer) const
+			{
+				renderer->submit(this);
+			}
 
 			inline const math::Vector3f& getPosition()	const { return m_position;	}
 			inline const math::Vector2f& getSize()		const { return m_size;		}

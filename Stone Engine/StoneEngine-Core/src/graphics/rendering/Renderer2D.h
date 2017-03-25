@@ -1,13 +1,15 @@
 #pragma once
 
 #include <glew.h>
+#include <vector>
 #include "..\..\math\maths.h"
-#include "Renderable2D.h"
+
 
 namespace seng
 {
 	namespace graphics
 	{
+		class Renderable2D;
 		class Renderer2D
 		{
 		protected:
