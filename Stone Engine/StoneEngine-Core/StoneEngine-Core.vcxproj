@@ -265,6 +265,11 @@ copy "$(SolutionDir)..\Dependencies\bin64\*" "$(OutputPath)"</Command>
     <None Include="res\simple.fs" />
     <None Include="res\simple.vs" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\test1.png" />
+    <Image Include="res\test2.png" />
+    <Image Include="res\test3.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

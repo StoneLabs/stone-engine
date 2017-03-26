@@ -16,7 +16,8 @@ namespace seng
 		private:
 			
 		public:
-			Sprite(float x, float y, float width, float height,	const math::Vector4f &color);
+			Sprite(float x, float y, float width, float height, const math::Vector4f &color);
+			Sprite(float x, float y, float width, float height, Texture *texture);
 		};
 	}
 }

@@ -22,7 +22,7 @@ namespace seng
 				m_keys[i] = false;
 			for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
 				m_mouseButtons[i] = false;
-
+ 
 		}
 		Window::~Window() { glfwTerminate(); }
 		

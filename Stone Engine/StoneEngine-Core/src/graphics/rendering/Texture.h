@@ -26,6 +26,7 @@ namespace seng
 
 			inline const unsigned int getWidth() const { return m_width; }
 			inline const unsigned int getHeight() const { return m_height; }
+			inline const GLuint getID() const { return m_tid; }
 
 		private:
 			GLuint load();

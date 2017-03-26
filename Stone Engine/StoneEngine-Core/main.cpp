@@ -44,20 +44,33 @@ int main(int argc, char *args)
 
 	Shader* sceneShader = new Shader("./res/basic.vs", "./res/basic.fs");
 	TileLayer scene(sceneShader);
+
+	Texture *textures[] = {
+		new Texture("./res/test1.png"),
+		new Texture("./res/test2.png"),
+		new Texture("./res/test3.png")
+	};
+
+#pragma region Sprites
 	for (float y = -9.0f; y < 9.0f; y ++)
 	{
 		for (float x = -16.0f; x < 16.0f; x ++)
 		{
-			scene.add(new Sprite(x, y, 0.9f, 0.9f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1)));
+			if (rand() % 4 == 0)
+				scene.add(new Sprite(x, y, 0.9f, 0.9f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1)));
+			else
+				scene.add(new Sprite(x, y, 0.9f, 0.9f, textures[rand() % 3]));
 		}
 	}
+#pragma endregion Being generated
 
-	glActiveTexture(GL_TEXTURE0);
-	Texture texture("./res/test.png");
-	texture.bind();
+	GLint texIDs[] =
+	{
+		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+	};
 
 	sceneShader->enable();
-	sceneShader->setUniform1i("tex", 0);
+	sceneShader->setUniform1iv("textures", texIDs, 10);
 
 	double MouseX = window.getWidth() / 2, MouseY = window.getHeight() / 2;
 	Timer time;

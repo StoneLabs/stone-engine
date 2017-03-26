@@ -27,10 +27,12 @@ namespace seng
 			glEnableVertexAttribArray(SHADER_VERTEX_INDEX);
 			glEnableVertexAttribArray(SHADER_COLOR_INDEX);
 			glEnableVertexAttribArray(SHADER_TEXCOORD_INDEX);
+			glEnableVertexAttribArray(SHADER_TEXID_INDEX);
 
 			glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0);
 			glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::color)));
 			glVertexAttribPointer(SHADER_TEXCOORD_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::texCoord)));
+			glVertexAttribPointer(SHADER_TEXID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(VertexData, VertexData::texID)));
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -75,30 +77,66 @@ namespace seng
 			const Vector2f &size = renderable->getSize();
 			const Vector4f &color = renderable->getColor();
 			const std::vector<Vector2f> &texCoord = renderable->getTexCoord();
+			const GLuint tid = renderable->getTID();
 
-			int r = (int)(color.x * 255);
-			int g = (int)(color.y * 255);
-			int b = (int)(color.z * 255);
-			int a = (int)(color.w * 255);
-			unsigned int c = a << 24 | b << 16 | g << 8 | r;
+			unsigned int c = 0;
+
+			float tslot = 0.0f;
+			if (tid > 0)
+			{
+				bool found = false;
+				for (int i = 0; i < m_textureSlots.size(); i++)
+				{
+					if (m_textureSlots[i] == tid)
+					{
+						tslot = (float)(i+1);
+						found = true;
+						break;
+					}
+				}
+
+				if (!found)
+				{
+					if (m_textureSlots.size() >= 32)
+					{
+						end();
+						flush();
+						begin();
+					}
+					m_textureSlots.push_back(tid);
+					tslot = (float)(m_textureSlots.size() - 1 + 1);
+				}
+			}
+			else
+			{
+				int r = (int)(color.x * 255);
+				int g = (int)(color.y * 255);
+				int b = (int)(color.z * 255);
+				int a = (int)(color.w * 255);
+				c = a << 24 | b << 16 | g << 8 | r;
+			}
 
 			m_buffer->vertex = *m_transformationBack * position;
 			m_buffer->texCoord = texCoord[0];
+			m_buffer->texID = tslot;
 			m_buffer->color = c;
 			m_buffer++;
 
 			m_buffer->vertex = *m_transformationBack * Vector3f(position.x, position.y + size.y, position.z);
 			m_buffer->texCoord = texCoord[1];
+			m_buffer->texID = tslot;
 			m_buffer->color = c;
 			m_buffer++;
 
 			m_buffer->vertex = *m_transformationBack * Vector3f(position.x + size.x, position.y + size.y, position.z);
 			m_buffer->texCoord = texCoord[2];
+			m_buffer->texID = tslot;
 			m_buffer->color = c;
 			m_buffer++;
 
 			m_buffer->vertex = *m_transformationBack * Vector3f(position.x + size.x, position.y, position.z);
 			m_buffer->texCoord = texCoord[3];
+			m_buffer->texID = tslot;
 			m_buffer->color = c;
 			m_buffer++;
 
@@ -108,6 +146,12 @@ namespace seng
 
 		void BatchRenderer2D::flush()
 		{
+			for (int i = 0; i < m_textureSlots.size(); i++)
+			{
+				glActiveTexture(GL_TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, m_textureSlots[i]);
+			}
+
 			glBindVertexArray(m_VAO);
 			m_IBO->bind();
 

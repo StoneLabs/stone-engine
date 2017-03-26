@@ -5,6 +5,7 @@
 #include "..\buffers\VertexArray.h"
 #include "..\Shader.h"
 #include "..\..\math\maths.h"
+#include "Texture.h"
 #include "Renderer2D.h"
 
 namespace seng
@@ -16,7 +17,7 @@ namespace seng
 			math::Vector3f vertex;
 			unsigned int color;
 			math::Vector2f texCoord;
-			//unsigned int texID;
+			float texID;
 		};
 
 		class Renderable2D
@@ -26,6 +27,7 @@ namespace seng
 			math::Vector2f m_size;
 			math::Vector4f m_color;
 			std::vector<math::Vector2f> m_texCoord;
+			Texture* m_texture;
 
 		protected:
 			Renderable2D() { setTexCoordDefaults(); }
@@ -44,6 +46,7 @@ namespace seng
 			inline const math::Vector2f& getSize()		const { return m_size;		}
 			inline const math::Vector4f& getColor()		const { return m_color;		}
 			inline const std::vector<seng::math::Vector2f> &getTexCoord() const { return m_texCoord; }
+			inline const GLuint getTID() const { return m_texture == nullptr ? 0 : m_texture->getID();  }
 		private:
 			void setTexCoordDefaults()
 			{

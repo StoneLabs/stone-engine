@@ -18,6 +18,7 @@ namespace seng
 #define SHADER_VERTEX_INDEX		0
 #define SHADER_COLOR_INDEX		1
 #define SHADER_TEXCOORD_INDEX	2
+#define SHADER_TEXID_INDEX  3
 
 		class BatchRenderer2D : public Renderer2D
 		{
@@ -27,6 +28,7 @@ namespace seng
 			IndexBuffer *m_IBO;
 			GLsizei m_indexCount;
 			VertexData *m_buffer;
+			std::vector<GLuint> m_textureSlots;
 
 		public:
 			BatchRenderer2D();

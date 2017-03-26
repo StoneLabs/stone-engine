@@ -30,9 +30,9 @@ namespace seng
 			FIBITMAP *dib = nullptr;
 			fifFC = FreeImage_GetFileType(filepath, 0);
 			fifFE = FreeImage_GetFIFFromFilename(filepath);
-			if (fifFC == FIF_UNKNOWN)
+			if (fifFC == FIF_UNKNOWN && fifFE != FIF_UNKNOWN)
 			{
-				std::cout << "Warning: Could not detect image format for " << filepath << std::endl;
+				std::cout << "Warning: Could not detect image format, assuming file extension is correct for " << filepath << std::endl;
 				fif = fifFE;
 			}
 			else if (fifFC != fifFE)

@@ -23,7 +23,9 @@ namespace seng
 			~Shader();
 
 			void setUniform1f(const GLchar *name, const float value);
+			void setUniform1fv(const GLchar *name, const float* value, const int count);
 			void setUniform1i(const GLchar *name, const int value);
+			void setUniform1iv(const GLchar *name, const int* value, const int count);
 			void setUniform2f(const GLchar *name, const math::Vector2f &vector);
 			void setUniform3f(const GLchar *name, const math::Vector3f &vector);
 			void setUniform4f(const GLchar *name, const math::Vector4f &vector);
