@@ -14,7 +14,7 @@ out DATA
 	vec4 position;
 	vec4 color;
 	vec2 texCoord;
-	float texID;
+	int texID;
 } vs_out;
 
 void main()
@@ -23,5 +23,5 @@ void main()
 	vs_out.position = gl_Position;
 	vs_out.texCoord = texCoord;
 	vs_out.color = color;
-	vs_out.texID = texID;
+	vs_out.texID = int(floor(texID));
 }

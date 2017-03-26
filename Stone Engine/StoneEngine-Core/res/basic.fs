@@ -9,7 +9,7 @@ in DATA
 	vec4 position;
 	vec4 color;
 	vec2 texCoord;
-	float texID;
+	flat int texID;
 } fs_in;
 
 uniform sampler2D textures[16];
@@ -18,10 +18,15 @@ void main()
 {
     float distance = 1.0f/length(fs_in.position.xy - lightPos) * 0.2;
 	vec4 texColor = fs_in.color;
-	if (fs_in.texID > 0.0)
+	if (fs_in.texID > 0)
 	{
-		int texID = int(fs_in.texID - 0.5);
-		texColor = texture(textures[texID], fs_in.texCoord);
+		int texID = fs_in.texID - 1;
+		texColor = vec4(texID / 4.0f, 0 , 0, 1);
+
+		for (int i = 0; i < 16; i++)
+			if (texID == i)
+				texColor = texture(textures[i], fs_in.texCoord);
+		
 	}
 	color = texColor * distance;
 }
