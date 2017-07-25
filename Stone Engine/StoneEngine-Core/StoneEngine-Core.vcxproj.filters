@@ -222,6 +222,9 @@
     <ClCompile Include="ext\freetype-gl\vector.c">
       <Filter>Source Files\ext\freetype-gl</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics\rendering\Label.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\graphics\window.h">
@@ -329,6 +332,9 @@
     <ClInclude Include="ext\freetype-gl\vector.h">
       <Filter>Header Files\ext\freetype-gl</Filter>
     </ClInclude>
+    <ClInclude Include="src\graphics\rendering\Label.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\basic.vs" />
@@ -348,5 +354,8 @@
     <Image Include="res\test3.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="res\arial.ttf" />
   </ItemGroup>
 </Project>

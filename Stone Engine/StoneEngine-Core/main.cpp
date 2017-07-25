@@ -28,8 +28,29 @@
 #define WINDOW_WIDTH 960
 #define WINDOW_HEIGHT 540
 
+#include <stdio.h>  /* defines FILENAME_MAX */
+#ifdef WIN32 or WIN64
+#include <direct.h>
+#define GetCurrentDir _getcwd
+#else
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
+
 int main(int argc, char *args)
 {
+
+	char cCurrentPath[FILENAME_MAX];
+
+	if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
+	{
+		return errno;
+	}
+
+	cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
+
+	std::cout << "The current working directory is " << cCurrentPath << std::endl;
+
 	using namespace std;
 	using namespace std::chrono;
 
@@ -39,7 +60,7 @@ int main(int argc, char *args)
 	using namespace seng::resource;
 
 	Window window(WINDOW_WIDTH, WINDOW_HEIGHT, "Stone Engine - Test");
-	std::cout << window.getVersion() << std::endl;
+	std::cout << window.getVersion() << std::endl << std::endl;
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	Shader* sceneShader = new Shader("./res/basic.vs", "./res/basic.fs");

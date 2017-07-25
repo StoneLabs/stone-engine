@@ -30,10 +30,10 @@ namespace seng
 			Texture* m_texture;
 
 		protected:
-			Renderable2D() { setTexCoordDefaults(); }
+			Renderable2D() : m_texture(nullptr) { setTexCoordDefaults(); }
 		public:
 			Renderable2D(math::Vector3f position, math::Vector2f size, math::Vector4f color)
-				: m_position(position), m_size(size), m_color(color) { setTexCoordDefaults(); }
+				: m_position(position), m_size(size), m_color(color), m_texture(nullptr) { setTexCoordDefaults(); }
 
 			virtual ~Renderable2D() {}
 

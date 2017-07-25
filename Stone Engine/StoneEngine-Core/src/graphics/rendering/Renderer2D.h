@@ -38,6 +38,7 @@ namespace seng
 				m_transformationBack = &m_transformationStack.back();
 			}
 			virtual void submit(const Renderable2D *renderable) = 0;
+			virtual void drawString(const std::string& text, const math::Vector3f position, const math::Vector4f color) {};
 			virtual void flush() = 0;
 			virtual void begin() {};
 			virtual void end() {};

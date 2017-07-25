@@ -147,7 +147,7 @@ copy "$(SolutionDir)..\Dependencies\bin64\*" "$(OutputPath)"</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_LIB;FT2_BUILD_LIBRARY;WIN32</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -176,7 +176,7 @@ copy "$(SolutionDir)..\Dependencies\bin86\*" "$(OutputPath)"
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_LIB;FT2_BUILD_LIBRARY</PreprocessorDefinitions>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -251,6 +251,7 @@ copy "$(SolutionDir)..\Dependencies\bin64\*" "$(OutputPath)"</Command>
     <ClCompile Include="src\graphics\layers\Layer.cpp" />
     <ClCompile Include="src\graphics\layers\TileLayer.cpp" />
     <ClCompile Include="src\graphics\rendering\BatchRenderer2D.cpp" />
+    <ClCompile Include="src\graphics\rendering\Label.cpp" />
     <ClCompile Include="src\graphics\rendering\SimpleRenderer2D.cpp" />
     <ClCompile Include="src\graphics\rendering\Sprite.cpp" />
     <ClCompile Include="src\graphics\rendering\StaticSprite.cpp" />
@@ -284,6 +285,7 @@ copy "$(SolutionDir)..\Dependencies\bin64\*" "$(OutputPath)"</Command>
     <ClInclude Include="src\graphics\layers\Layer.h" />
     <ClInclude Include="src\graphics\layers\TileLayer.h" />
     <ClInclude Include="src\graphics\rendering\BatchRenderer2D.h" />
+    <ClInclude Include="src\graphics\rendering\Label.h" />
     <ClInclude Include="src\graphics\rendering\Renderable2D.h" />
     <ClInclude Include="src\graphics\rendering\Renderer2D.h" />
     <ClInclude Include="src\graphics\rendering\SimpleRenderer2D.h" />
@@ -325,6 +327,9 @@ copy "$(SolutionDir)..\Dependencies\bin64\*" "$(OutputPath)"</Command>
     <Image Include="res\test1.png" />
     <Image Include="res\test2.png" />
     <Image Include="res\test3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="res\arial.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -55,6 +55,12 @@ namespace seng
 			m_IBO = new IndexBuffer(indices, RENDERER_INDICES_SIZE);
 
 			glBindVertexArray(0);
+
+			m_FTAtlas = ftgl::texture_atlas_new(512, 512, 1);
+			m_FTFont = ftgl::texture_font_new_from_file(m_FTAtlas, 80, "./res/arial.ttf");
+
+			for (int i = 32; i <= 122; i++)
+				ftgl::texture_font_get_glyph(m_FTFont, (char)i);
 		}
 
 		void BatchRenderer2D::begin()
@@ -142,6 +148,63 @@ namespace seng
 
 			m_indexCount += 6;
 
+		}
+
+		void BatchRenderer2D::drawString(const std::string& text, const math::Vector3f position, const math::Vector4f color)
+		{
+			using namespace ftgl;
+			using namespace math;
+
+			float tslot = 0.0f;
+			bool found = false;
+			for (int i = 0; i < m_textureSlots.size(); i++)
+			{
+				if (m_textureSlots[i] == m_FTAtlas->id)
+				{
+					tslot = (float)(i + 1);
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+			{
+				if (m_textureSlots.size() >= 32)
+				{
+					end();
+					flush();
+					begin();
+				}
+				m_textureSlots.push_back(m_FTAtlas->id);
+				tslot = (float)(m_textureSlots.size() - 1 + 1);
+			}
+
+
+			m_buffer->vertex = Vector3f(-8, -8, 0);
+			m_buffer->texCoord = Vector2f(0, 1);
+			m_buffer->texID = tslot;
+			//m_buffer->color = c;
+			m_buffer++;
+
+			m_buffer->vertex = Vector3f(-8, 8, 0);
+			m_buffer->texCoord = Vector2f(0, 0);
+			m_buffer->texID = tslot;
+			//m_buffer->color = c;
+			m_buffer++;
+
+			m_buffer->vertex = Vector3f(8, 8, 0);
+			m_buffer->texCoord = Vector2f(1, 0);
+			m_buffer->texID = tslot;
+			//m_buffer->color = c;
+			m_buffer++;
+
+			m_buffer->vertex = Vector3f(8, -8, 0);
+			m_buffer->texCoord = Vector2f(1, 1);
+			m_buffer->texID = tslot;
+			//m_buffer->color = c;
+			m_buffer++;
+
+			m_indexCount += 6;
 		}
 
 		void BatchRenderer2D::flush()
