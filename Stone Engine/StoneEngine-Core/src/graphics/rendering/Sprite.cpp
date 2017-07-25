@@ -14,7 +14,7 @@ namespace seng
 			: Renderable2D(math::Vector3f(x, y, 0), math::Vector2f(width, height), color) { }
 
 		Sprite::Sprite(float x, float y, float width, float height, Texture *texture)
-			: Renderable2D(math::Vector3f(x, y, 0), math::Vector2f(width, height), math::Vector4f(1, 0, 1, 1))
+			: Renderable2D(math::Vector3f(x, y, 0), math::Vector2f(width, height), math::Vector4f(1, 1, 1, 1))
 		{
 			m_texture = texture;
 		}

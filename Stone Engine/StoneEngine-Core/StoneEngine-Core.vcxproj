@@ -318,6 +318,7 @@ copy "$(SolutionDir)..\Dependencies\bin64\*" "$(OutputPath)"</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </Text>
+    <Text Include="res\fonts\SIL Open Font License.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\simple.fs" />
@@ -329,7 +330,9 @@ copy "$(SolutionDir)..\Dependencies\bin64\*" "$(OutputPath)"</Command>
     <Image Include="res\test3.png" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="res\arial.ttf" />
+    <Font Include="res\fonts\SourceSansPro-Bold.otf" />
+    <Font Include="res\fonts\SourceSansPro-Light.otf" />
+    <Font Include="res\fonts\SourceSansPro-Regular.otf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

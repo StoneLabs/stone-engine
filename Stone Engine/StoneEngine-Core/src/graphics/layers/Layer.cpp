@@ -33,8 +33,6 @@ namespace seng
 			for (const Renderable2D* renderable : m_renderables)
 				renderable->submit(m_renderer);
 
-			m_renderer->drawString("", math::Vector3f(0, 0, 0), math::Vector4f(0, 0, 0, 0));
-
 			m_renderer->end();
 			m_renderer->flush();
 		}

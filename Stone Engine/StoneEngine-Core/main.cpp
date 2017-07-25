@@ -14,6 +14,7 @@
 #include "src/graphics/rendering/Sprite.h"
 #include "src/graphics/rendering/StaticSprite.h"
 #include "src/graphics/rendering/Texture.h"
+#include "src/graphics/rendering/Label.h"
 
 #include "src/graphics/Shader.h"
 #include "src/graphics/window.h"
@@ -85,6 +86,14 @@ int main(int argc, char *args)
 	}
 #pragma endregion Being generated
 
+#pragma region FPS Counter
+	Group *topleft = new Group(Matrix4f::translation(Vector3f(-16, 8, 0)));
+	Label *fps = new Label("FPS: ", 0.5f, 0.2f, Vector4f(1, 1, 1, 1));
+	topleft->add(new Sprite(0, 0, 6, 2, Vector4f(0.2f, 0.2f, 0.2f, 0.8f)));
+	topleft->add(fps);
+	scene.add(topleft);
+#pragma endregion Cool Font FPS
+
 	GLint texIDs[] =
 	{
 		0, 1, 2, 3, 4, 5, 6, 7, 8, 9
@@ -92,6 +101,7 @@ int main(int argc, char *args)
 
 	sceneShader->enable();
 	sceneShader->setUniform1iv("textures", texIDs, 10);
+
 
 	double MouseX = window.getWidth() / 2, MouseY = window.getHeight() / 2;
 	Timer time;
@@ -114,6 +124,7 @@ int main(int argc, char *args)
 		{
 			timer += 1.0f;
 			printf("FPS: %d\n", frames);
+			fps->text = "FPS: " + std::to_string(frames);
 			frames = 0;
 		}
 	}

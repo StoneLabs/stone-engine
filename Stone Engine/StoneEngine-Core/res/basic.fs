@@ -25,8 +25,8 @@ void main()
 
 		for (int i = 0; i < 16; i++)
 			if (texID == i)
-				texColor = texture(textures[i], fs_in.texCoord);
+				texColor = fs_in.color * texture(textures[i], fs_in.texCoord);
 		
 	}
-	color = texColor * distance;
+	color = texColor * vec4(distance, distance, distance, 1);
 }

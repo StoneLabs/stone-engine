@@ -9,7 +9,8 @@ namespace seng
 	{
 		class Label : public Renderable2D
 		{
-			std::string m_Text;
+		public:
+			std::string text;
 
 		public:
 			Label(std::string text, float x, float y, math::Vector4f color);

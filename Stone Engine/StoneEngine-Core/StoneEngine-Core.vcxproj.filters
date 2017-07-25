@@ -339,6 +339,7 @@
   <ItemGroup>
     <Text Include="res\basic.vs" />
     <Text Include="res\basic.fs" />
+    <Text Include="res\fonts\SIL Open Font License.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\simple.fs" />
@@ -356,6 +357,8 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="res\arial.ttf" />
+    <Font Include="res\fonts\SourceSansPro-Bold.otf" />
+    <Font Include="res\fonts\SourceSansPro-Light.otf" />
+    <Font Include="res\fonts\SourceSansPro-Regular.otf" />
   </ItemGroup>
 </Project>

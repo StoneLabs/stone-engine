@@ -56,11 +56,8 @@ namespace seng
 
 			glBindVertexArray(0);
 
-			m_FTAtlas = ftgl::texture_atlas_new(512, 512, 1);
-			m_FTFont = ftgl::texture_font_new_from_file(m_FTAtlas, 80, "./res/arial.ttf");
-
-			for (int i = 32; i <= 122; i++)
-				ftgl::texture_font_get_glyph(m_FTFont, (char)i);
+			m_FTAtlas = ftgl::texture_atlas_new(512, 512, 2);
+			m_FTFont = ftgl::texture_font_new_from_file(m_FTAtlas, 32, "./res/fonts/SourceSansPro-Regular.otf");
 		}
 
 		void BatchRenderer2D::begin()
@@ -113,14 +110,12 @@ namespace seng
 					tslot = (float)(m_textureSlots.size() - 1 + 1);
 				}
 			}
-			else
-			{
-				int r = (int)(color.x * 255);
-				int g = (int)(color.y * 255);
-				int b = (int)(color.z * 255);
-				int a = (int)(color.w * 255);
-				c = a << 24 | b << 16 | g << 8 | r;
-			}
+			int r = (int)(color.x * 255);
+			int g = (int)(color.y * 255);
+			int b = (int)(color.z * 255);
+			int a = (int)(color.w * 255);
+			c = a << 24 | b << 16 | g << 8 | r;
+			
 
 			m_buffer->vertex = *m_transformationBack * position;
 			m_buffer->texCoord = texCoord[0];
@@ -155,6 +150,12 @@ namespace seng
 			using namespace ftgl;
 			using namespace math;
 
+			const int r = (int)(color.x * 255);
+			const int g = (int)(color.y * 255);
+			const int b = (int)(color.z * 255);
+			const int a = (int)(color.w * 255);
+			const unsigned int colorCD = a << 24 | b << 16 | g << 8 | r;
+
 			float tslot = 0.0f;
 			bool found = false;
 			for (int i = 0; i < m_textureSlots.size(); i++)
@@ -179,32 +180,61 @@ namespace seng
 				tslot = (float)(m_textureSlots.size() - 1 + 1);
 			}
 
+			float scaleX = 960.0f / 32.0f, scaleY = 640.0f / 18.0f;
+			float x = position.x;
 
-			m_buffer->vertex = Vector3f(-8, -8, 0);
-			m_buffer->texCoord = Vector2f(0, 1);
-			m_buffer->texID = tslot;
-			//m_buffer->color = c;
-			m_buffer++;
+			for (int i = 0; i < text.length(); i++)
+			{
+				texture_glyph_t* glyph = ftgl::texture_font_get_glyph(m_FTFont, text[i]);
+				if (glyph != NULL)
+				{
+					if (i > 0)
+					{
+						float kerning = texture_glyph_get_kerning(glyph, text[i - 1]);
+						x += kerning / scaleX;
+					}
 
-			m_buffer->vertex = Vector3f(-8, 8, 0);
-			m_buffer->texCoord = Vector2f(0, 0);
-			m_buffer->texID = tslot;
-			//m_buffer->color = c;
-			m_buffer++;
+					//position
+					float x0 = x + glyph->offset_x / scaleX;
+					float y0 = position.y + glyph->offset_y / scaleY;
+					float x1 = x0 + glyph->width / scaleX;
+					float y1 = y0 - glyph->height / scaleY;
 
-			m_buffer->vertex = Vector3f(8, 8, 0);
-			m_buffer->texCoord = Vector2f(1, 0);
-			m_buffer->texID = tslot;
-			//m_buffer->color = c;
-			m_buffer++;
+					//tex coordinates
+					float u0 = glyph->s0;
+					float v0 = glyph->t0;
+					float u1 = glyph->s1;
+					float v1 = glyph->t1;
+				
+					m_buffer->vertex = *m_transformationBack * Vector3f(x0, y0, 0);
+					m_buffer->texCoord = Vector2f(u0,v0);
+					m_buffer->texID = tslot;
+					m_buffer->color = colorCD;
+					m_buffer++;
 
-			m_buffer->vertex = Vector3f(8, -8, 0);
-			m_buffer->texCoord = Vector2f(1, 1);
-			m_buffer->texID = tslot;
-			//m_buffer->color = c;
-			m_buffer++;
+					m_buffer->vertex = *m_transformationBack * Vector3f(x0, y1, 0);
+					m_buffer->texCoord = Vector2f(u0, v1);
+					m_buffer->texID = tslot;
+					m_buffer->color = colorCD;
+					m_buffer++;
 
-			m_indexCount += 6;
+					m_buffer->vertex = *m_transformationBack * Vector3f(x1, y1, 0);
+					m_buffer->texCoord = Vector2f(u1, v1);
+					m_buffer->texID = tslot;
+					m_buffer->color = colorCD;
+					m_buffer++;
+
+					m_buffer->vertex = *m_transformationBack * Vector3f(x1, y0, 0);
+					m_buffer->texCoord = Vector2f(u1, v0);
+					m_buffer->texID = tslot;
+					m_buffer->color = colorCD;
+					m_buffer++;
+
+					m_indexCount += 6;
+
+					x += glyph->advance_x / scaleX;
+				}
+			}
 		}
 
 		void BatchRenderer2D::flush()
