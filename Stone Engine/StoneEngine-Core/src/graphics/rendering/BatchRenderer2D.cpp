@@ -78,11 +78,9 @@ namespace seng
 
 			const Vector3f &position = renderable->getPosition();
 			const Vector2f &size = renderable->getSize();
-			const Vector4f &color = renderable->getColor();
+			const unsigned int color = renderable->getColor();
 			const std::vector<Vector2f> &texCoord = renderable->getTexCoord();
 			const GLuint tid = renderable->getTID();
-
-			unsigned int c = 0;
 
 			float tslot = 0.0f;
 			if (tid > 0)
@@ -109,53 +107,41 @@ namespace seng
 					m_textureSlots.push_back(tid);
 					tslot = (float)(m_textureSlots.size() - 1 + 1);
 				}
-			}
-			int r = (int)(color.x * 255);
-			int g = (int)(color.y * 255);
-			int b = (int)(color.z * 255);
-			int a = (int)(color.w * 255);
-			c = a << 24 | b << 16 | g << 8 | r;
-			
+			}			
 
 			m_buffer->vertex = *m_transformationBack * position;
 			m_buffer->texCoord = texCoord[0];
 			m_buffer->texID = tslot;
-			m_buffer->color = c;
+			m_buffer->color = color;
 			m_buffer++;
 
 			m_buffer->vertex = *m_transformationBack * Vector3f(position.x, position.y + size.y, position.z);
 			m_buffer->texCoord = texCoord[1];
 			m_buffer->texID = tslot;
-			m_buffer->color = c;
+			m_buffer->color = color;
 			m_buffer++;
 
 			m_buffer->vertex = *m_transformationBack * Vector3f(position.x + size.x, position.y + size.y, position.z);
 			m_buffer->texCoord = texCoord[2];
 			m_buffer->texID = tslot;
-			m_buffer->color = c;
+			m_buffer->color = color;
 			m_buffer++;
 
 			m_buffer->vertex = *m_transformationBack * Vector3f(position.x + size.x, position.y, position.z);
 			m_buffer->texCoord = texCoord[3];
 			m_buffer->texID = tslot;
-			m_buffer->color = c;
+			m_buffer->color = color;
 			m_buffer++;
 
 			m_indexCount += 6;
 
 		}
 
-		void BatchRenderer2D::drawString(const std::string& text, const math::Vector3f position, const math::Vector4f color)
+		void BatchRenderer2D::drawString(const std::string& text, const math::Vector3f position, const unsigned int color)
 		{
 			using namespace ftgl;
 			using namespace math;
-
-			const int r = (int)(color.x * 255);
-			const int g = (int)(color.y * 255);
-			const int b = (int)(color.z * 255);
-			const int a = (int)(color.w * 255);
-			const unsigned int colorCD = a << 24 | b << 16 | g << 8 | r;
-
+			
 			float tslot = 0.0f;
 			bool found = false;
 			for (int i = 0; i < m_textureSlots.size(); i++)
@@ -209,25 +195,25 @@ namespace seng
 					m_buffer->vertex = *m_transformationBack * Vector3f(x0, y0, 0);
 					m_buffer->texCoord = Vector2f(u0,v0);
 					m_buffer->texID = tslot;
-					m_buffer->color = colorCD;
+					m_buffer->color = color;
 					m_buffer++;
 
 					m_buffer->vertex = *m_transformationBack * Vector3f(x0, y1, 0);
 					m_buffer->texCoord = Vector2f(u0, v1);
 					m_buffer->texID = tslot;
-					m_buffer->color = colorCD;
+					m_buffer->color = color;
 					m_buffer++;
 
 					m_buffer->vertex = *m_transformationBack * Vector3f(x1, y1, 0);
 					m_buffer->texCoord = Vector2f(u1, v1);
 					m_buffer->texID = tslot;
-					m_buffer->color = colorCD;
+					m_buffer->color = color;
 					m_buffer++;
 
 					m_buffer->vertex = *m_transformationBack * Vector3f(x1, y0, 0);
 					m_buffer->texCoord = Vector2f(u1, v0);
 					m_buffer->texID = tslot;
-					m_buffer->color = colorCD;
+					m_buffer->color = color;
 					m_buffer++;
 
 					m_indexCount += 6;

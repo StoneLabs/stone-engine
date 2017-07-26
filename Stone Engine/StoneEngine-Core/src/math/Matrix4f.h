@@ -33,6 +33,8 @@ namespace seng
 			static Matrix4f rotation(float angle, const Vector3f &axis);
 			static Matrix4f scale(const Vector3f &scale);
 
+			Matrix4f invert();
+
 			Matrix4f& multiply(const Matrix4f &other);
 			Vector3f  multiply(const Vector3f &other) const;
 			Vector4f  multiply(const Vector4f &other) const;

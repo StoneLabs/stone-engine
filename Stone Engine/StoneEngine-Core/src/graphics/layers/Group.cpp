@@ -10,6 +10,12 @@ namespace seng
 
 		}
 
+		Group::~Group()
+		{
+			for (int i = 0; i < m_renderables.size(); i++)
+				delete m_renderables[i];
+		}
+
 		void Group::submit(Renderer2D* renderer) const
 		{
 			renderer->push(m_transformation);

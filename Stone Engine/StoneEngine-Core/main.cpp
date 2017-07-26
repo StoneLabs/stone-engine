@@ -26,8 +26,8 @@
 #include <iostream>
 #include <vector>
 
-#define WINDOW_WIDTH 960
-#define WINDOW_HEIGHT 540
+#define WINDOW_INIT_WIDTH 960
+#define WINDOW_INIT_HEIGHT 540
 
 #include <stdio.h>  /* defines FILENAME_MAX */
 #ifdef WIN32 or WIN64
@@ -40,7 +40,6 @@
 
 int main(int argc, char *args)
 {
-
 	char cCurrentPath[FILENAME_MAX];
 
 	if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath)))
@@ -60,7 +59,7 @@ int main(int argc, char *args)
 	using namespace seng::graphics;
 	using namespace seng::resource;
 
-	Window window(WINDOW_WIDTH, WINDOW_HEIGHT, "Stone Engine - Test");
+	Window window(WINDOW_INIT_WIDTH, WINDOW_INIT_HEIGHT, "Stone Engine - Test");
 	std::cout << window.getVersion() << std::endl << std::endl;
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -76,10 +75,12 @@ int main(int argc, char *args)
 #pragma region Sprites
 	for (float y = -9.0f; y < 9.0f; y ++)
 	{
-		for (float x = -16.0f; x < 16.0f; x ++)
+		for (float x = -16.0f; x < 16.0f; x++)
 		{
 			if (rand() % 4 == 0)
-				scene.add(new Sprite(x, y, 0.9f, 0.9f, Vector4f(rand() % 1000 / 1000.0f, 0, 1, 1)));
+			{
+				scene.add(new Sprite(x, y, 0.9f, 0.9f, (rand() % 0xff + 1) | 0xffff0000));
+			}
 			else
 				scene.add(new Sprite(x, y, 0.9f, 0.9f, textures[rand() % 3]));
 		}
@@ -88,8 +89,8 @@ int main(int argc, char *args)
 
 #pragma region FPS Counter
 	Group *topleft = new Group(Matrix4f::translation(Vector3f(-16, 8, 0)));
-	Label *fps = new Label("FPS: ", 0.5f, 0.2f, Vector4f(1, 1, 1, 1));
-	topleft->add(new Sprite(0, 0, 6, 2, Vector4f(0.2f, 0.2f, 0.2f, 0.8f)));
+	Label *fps = new Label("FPS: ", 0.5f, 0.2f, 0xffffffff);
+	topleft->add(new Sprite(0, 0, 6, 2, 0xcc222222));
 	topleft->add(fps);
 	scene.add(topleft);
 #pragma endregion Cool Font FPS
@@ -111,11 +112,16 @@ int main(int argc, char *args)
 	{
 		window.clear();
 
-		if (window.isMouseButtonPressed(0))
+		if (window.isMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT))
 			window.getCursorPosition(MouseX, MouseY);
 
+		if (window.isKeyPressed(GLFW_KEY_SPACE))
+			std::cout << "Key pressed!" << std::endl;
+		if (window.isKeyReleased(GLFW_KEY_SPACE))
+			std::cout << "Key released!" << std::endl;
+
 		scene.render();
-		sceneShader->setUniform2f("lightPos", Vector2f((float)MouseX / WINDOW_WIDTH * 2 - 1, -((float)MouseY / WINDOW_HEIGHT * 2 - 1)));
+		sceneShader->setUniform2f("lightPos", Vector2f((float)MouseX / window.getWidth() * 2 - 1, -((float)MouseY / window.getHeight() * 2 - 1)));
 		
 		window.update();
 
@@ -123,7 +129,7 @@ int main(int argc, char *args)
 		if (time.elapsed() - timer > 1.0f)
 		{
 			timer += 1.0f;
-			printf("FPS: %d\n", frames);
+			//printf("FPS: %d\n", frames);
 			fps->text = "FPS: " + std::to_string(frames);
 			frames = 0;
 		}

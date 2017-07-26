@@ -15,6 +15,7 @@ namespace seng
 
 		public:
 			Group(const math::Matrix4f& transform);
+			~Group();
 			void submit(Renderer2D* renderer) const override;
 			void add(Renderable2D* renderable);
 		};

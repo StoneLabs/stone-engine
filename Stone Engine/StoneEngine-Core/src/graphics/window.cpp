@@ -7,6 +7,8 @@ namespace seng
 	{
 		bool Window::m_keys[MAX_KEYS];
 		bool Window::m_mouseButtons[MAX_MOUSE_BUTTONS];
+		bool Window::m_keys_prev[MAX_KEYS];
+		bool Window::m_mouseButtons_prev[MAX_MOUSE_BUTTONS];
 		double Window::mx, Window::my;
 
 		Window::Window(int width, int height, const char *name)
@@ -20,8 +22,12 @@ namespace seng
 
 			for (int i = 0; i < MAX_KEYS; i++)
 				m_keys[i] = false;
+			for (int i = 0; i < MAX_KEYS; i++)
+				m_keys_prev[i] = false;
 			for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
 				m_mouseButtons[i] = false;
+			for (int i = 0; i < MAX_MOUSE_BUTTONS; i++)
+				m_mouseButtons_prev[i] = false;
  
 		}
 		Window::~Window() { glfwTerminate(); }
@@ -43,7 +49,7 @@ namespace seng
 
 			glfwMakeContextCurrent(m_window);
 			glfwSetWindowUserPointer(m_window, this);
-			glfwSetWindowSizeCallback(m_window, window_resize);
+			glfwSetFramebufferSizeCallback(m_window, window_resize);
 			glfwSetKeyCallback(m_window, key_callback);
 			glfwSetMouseButtonCallback(m_window, mouse_button_callback);
 			glfwSetCursorPosCallback(m_window, mouse_cursor_position_callback);
@@ -68,6 +74,9 @@ namespace seng
 
 		void Window::update()
 		{
+			memcpy(m_keys_prev, m_keys, MAX_KEYS * sizeof(bool));
+			memcpy(m_mouseButtons_prev, m_mouseButtons, MAX_MOUSE_BUTTONS * sizeof(bool));
+
 			GLenum error = glGetError();
 			if (error != GL_NO_ERROR)
 				std::cout << "OpenGL Error: " << error << std::endl;
@@ -84,6 +93,9 @@ namespace seng
 		void window_resize(GLFWwindow *window, int width, int height)
 		{
 			glViewport(0, 0, width, height);
+			Window *win = (Window*)glfwGetWindowUserPointer(window);
+			win->m_width = width;
+			win->m_height = height;
 		}
 
 		void key_callback(GLFWwindow *window, int key, int scancode, int action, int mode)
@@ -106,20 +118,50 @@ namespace seng
 			win->my = ypos;
 		}
 
-		bool Window::isKeyPressed(unsigned int keycode) const
+		bool Window::isKeyDown(unsigned int keycode) const
 		{
 			if (keycode >= MAX_KEYS)
 				return false;
 
 			return m_keys[keycode];
 		}
-		bool Window::isMouseButtonPressed(unsigned int button) const
+		bool Window::isKeyPressed(unsigned int keycode) const
 		{
-			if (button >= MAX_KEYS)
+			if (keycode >= MAX_KEYS)
+				return false;
+
+			return m_keys[keycode] && !m_keys_prev[keycode];
+		}
+		bool Window::isKeyReleased(unsigned int keycode) const
+		{
+			if (keycode >= MAX_KEYS)
+				return false;
+
+			return !m_keys[keycode] && m_keys_prev[keycode];
+		}
+
+		bool Window::isMouseButtonDown(unsigned int button) const
+		{
+			if (button >= MAX_MOUSE_BUTTONS)
 				return false;
 
 			return m_mouseButtons[button];
 		}
+		bool Window::isMouseButtonPressed(unsigned int button) const
+		{
+			if (button >= MAX_MOUSE_BUTTONS)
+				return false;
+
+			return m_mouseButtons[button] && !m_mouseButtons_prev[button];
+		}
+		bool Window::isMouseButtonReleased(unsigned int button) const
+		{
+			if (button >= MAX_MOUSE_BUTTONS)
+				return false;
+
+			return !m_mouseButtons[button] && m_mouseButtons_prev[button];
+		}
+
 		double Window::getCursorPositionX() const
 		{
 			return mx;

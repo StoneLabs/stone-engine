@@ -25,14 +25,14 @@ namespace seng
 		protected:
 			math::Vector3f m_position;
 			math::Vector2f m_size;
-			math::Vector4f m_color;
+			unsigned int m_color;
 			std::vector<math::Vector2f> m_texCoord;
 			Texture* m_texture;
 
 		protected:
 			Renderable2D() : m_texture(nullptr) { setTexCoordDefaults(); }
 		public:
-			Renderable2D(math::Vector3f position, math::Vector2f size, math::Vector4f color)
+			Renderable2D(math::Vector3f position, math::Vector2f size, unsigned int color)
 				: m_position(position), m_size(size), m_color(color), m_texture(nullptr) { setTexCoordDefaults(); }
 
 			virtual ~Renderable2D() {}
@@ -42,9 +42,18 @@ namespace seng
 				renderer->submit(this);
 			}
 
+			void setColor(const math::Vector4f& color) 
+			{
+				const int r = (int)(color.x * 255);
+				const int g = (int)(color.y * 255);
+				const int b = (int)(color.z * 255);
+				const int a = (int)(color.w * 255);
+				m_color = a << 24 | b << 16 | g << 8 | r;
+			}
+			inline void setColor(const unsigned int color) { m_color = color; }
 			inline const math::Vector3f& getPosition()	const { return m_position;	}
 			inline const math::Vector2f& getSize()		const { return m_size;		}
-			inline const math::Vector4f& getColor()		const { return m_color;		}
+			inline const unsigned int& getColor()		const { return m_color;		}
 			inline const std::vector<seng::math::Vector2f> &getTexCoord() const { return m_texCoord; }
 			inline const GLuint getTID() const { return m_texture == nullptr ? 0 : m_texture->getID();  }
 		private:

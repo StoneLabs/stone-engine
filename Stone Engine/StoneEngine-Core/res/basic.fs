@@ -21,7 +21,6 @@ void main()
 	if (fs_in.texID > 0)
 	{
 		int texID = fs_in.texID - 1;
-		texColor = vec4(texID / 4.0f, 0 , 0, 1);
 
 		for (int i = 0; i < 16; i++)
 			if (texID == i)

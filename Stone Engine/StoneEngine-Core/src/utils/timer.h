@@ -1,35 +1,31 @@
 #pragma once
 
 #include <Windows.h>
+#include <chrono>
 
 namespace seng
 {
 	class Timer
 	{
 	private:
-		LARGE_INTEGER m_start;
-		double m_frequency;
-
+		typedef std::chrono::high_resolution_clock HighResolutionClock;
+		typedef std::chrono::duration<float, std::milli> milliseconds_type;
+		std::chrono::time_point<HighResolutionClock> m_Start;
 	public:
 		Timer()
 		{
-			LARGE_INTEGER frequency;
-			QueryPerformanceFrequency(&frequency);
-			m_frequency = 1.0f / frequency.QuadPart;
-			QueryPerformanceCounter(&m_start);
+			reset();
 		}
 
 		void reset()
 		{
-			QueryPerformanceCounter(&m_start);
+			m_Start = HighResolutionClock::now();
 		}
 
 		float elapsed()
 		{
-			LARGE_INTEGER current;
-			QueryPerformanceCounter(&current);
-			unsigned __int64 cycles = current.QuadPart - m_start.QuadPart;
-			return (float)(cycles * m_frequency);
+			return std::chrono::duration_cast<milliseconds_type>(HighResolutionClock::now() - m_Start).count() / 1000.0f;
 		}
+
 	};
 }

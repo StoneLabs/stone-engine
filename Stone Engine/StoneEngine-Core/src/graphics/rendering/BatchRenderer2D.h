@@ -42,7 +42,7 @@ namespace seng
 			void begin() override;
 			void end() override;
 			void submit(const Renderable2D *renderable) override;
-			void drawString(const std::string& text, const math::Vector3f position, const math::Vector4f color) override;
+			void drawString(const std::string& text, const math::Vector3f position, const unsigned int color) override;
 			void flush() override;
 
 		private:

@@ -12,7 +12,7 @@ namespace seng
 	{
 		StaticSprite::StaticSprite(float x, float y, float width, float height,
 			const math::Vector4f &color, Shader &shader)
-			: Renderable2D(math::Vector3f(x,y,0), math::Vector2f(width, height), color), m_shader(shader)
+			: Renderable2D(math::Vector3f(x,y,0), math::Vector2f(width, height), 0xffff00ff), m_shader(shader)
 		{
 			m_vertexArray = new VertexArray();
 			GLfloat vertices[] = { 0, 0, 0, 0, height, 0, width, height, 0, width, 0, 0 };

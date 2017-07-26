@@ -13,7 +13,7 @@ namespace seng
 			std::string text;
 
 		public:
-			Label(std::string text, float x, float y, math::Vector4f color);
+			Label(std::string text, float x, float y, const unsigned int color);
 			void submit(Renderer2D* renderer) const override;
 
 
