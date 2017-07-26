@@ -55,9 +55,6 @@ namespace seng
 			m_IBO = new IndexBuffer(indices, RENDERER_INDICES_SIZE);
 
 			glBindVertexArray(0);
-
-			m_FTAtlas = ftgl::texture_atlas_new(512, 512, 2);
-			m_FTFont = ftgl::texture_font_new_from_file(m_FTAtlas, 32, "./res/fonts/SourceSansPro-Regular.otf");
 		}
 
 		void BatchRenderer2D::begin()
@@ -137,7 +134,7 @@ namespace seng
 
 		}
 
-		void BatchRenderer2D::drawString(const std::string& text, const math::Vector3f position, const unsigned int color)
+		void BatchRenderer2D::drawString(const std::string& text, const math::Vector3f position, const Font& font, const unsigned int color)
 		{
 			using namespace ftgl;
 			using namespace math;
@@ -146,7 +143,7 @@ namespace seng
 			bool found = false;
 			for (int i = 0; i < m_textureSlots.size(); i++)
 			{
-				if (m_textureSlots[i] == m_FTAtlas->id)
+				if (m_textureSlots[i] == font.getID())
 				{
 					tslot = (float)(i + 1);
 					found = true;
@@ -162,7 +159,7 @@ namespace seng
 					flush();
 					begin();
 				}
-				m_textureSlots.push_back(m_FTAtlas->id);
+				m_textureSlots.push_back(font.getID());
 				tslot = (float)(m_textureSlots.size() - 1 + 1);
 			}
 
@@ -171,7 +168,7 @@ namespace seng
 
 			for (int i = 0; i < text.length(); i++)
 			{
-				texture_glyph_t* glyph = ftgl::texture_font_get_glyph(m_FTFont, text[i]);
+				texture_glyph_t* glyph = ftgl::texture_font_get_glyph(font.getFTGLFont(), text[i]);
 				if (glyph != NULL)
 				{
 					if (i > 0)

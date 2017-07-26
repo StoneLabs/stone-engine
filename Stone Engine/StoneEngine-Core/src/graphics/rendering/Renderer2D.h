@@ -2,6 +2,7 @@
 
 #include <glew.h>
 #include <vector>
+#include "../Font.h"
 #include "..\..\math\maths.h"
 
 
@@ -38,7 +39,7 @@ namespace seng
 				m_transformationBack = &m_transformationStack.back();
 			}
 			virtual void submit(const Renderable2D *renderable) = 0;
-			virtual void drawString(const std::string& text, const math::Vector3f position, const unsigned int color) {};
+			virtual void drawString(const std::string& text, const math::Vector3f position, const Font& font, const unsigned int color) {};
 			virtual void flush() = 0;
 			virtual void begin() {};
 			virtual void end() {};

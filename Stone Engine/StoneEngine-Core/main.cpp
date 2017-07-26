@@ -72,6 +72,8 @@ int main(int argc, char *args)
 		new Texture("./res/test3.png")
 	};
 
+	Font *font = new Font("fonts/SourceSansPro-Light.otf", 20);
+
 #pragma region Sprites
 	for (float y = -9.0f; y < 9.0f; y ++)
 	{
@@ -89,7 +91,7 @@ int main(int argc, char *args)
 
 #pragma region FPS Counter
 	Group *topleft = new Group(Matrix4f::translation(Vector3f(-16, 8, 0)));
-	Label *fps = new Label("FPS: ", 0.5f, 0.2f, 0xffffffff);
+	Label *fps = new Label("FPS: ", 0.5f, 0.2f, font, 0xffffffff);
 	topleft->add(new Sprite(0, 0, 6, 2, 0xcc222222));
 	topleft->add(fps);
 	scene.add(topleft);

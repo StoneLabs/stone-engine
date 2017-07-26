@@ -11,9 +11,10 @@ namespace seng
 		{
 		public:
 			std::string text;
+			Font* font;
 
 		public:
-			Label(std::string text, float x, float y, const unsigned int color);
+			Label(std::string text, float x, float y, Font* font, const unsigned int color);
 			void submit(Renderer2D* renderer) const override;
 
 

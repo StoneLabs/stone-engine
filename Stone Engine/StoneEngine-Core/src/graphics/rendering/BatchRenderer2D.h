@@ -5,8 +5,7 @@
 #include "Renderable2D.h"
 #include "..\buffers\IndexBuffer.h"
 #include "../../math/maths.h"
-
-#include "../../../ext/freetype-gl/freetype-gl.h"
+#include "../Font.h"
 
 namespace seng
 {
@@ -32,8 +31,6 @@ namespace seng
 			GLsizei m_indexCount;
 			VertexData *m_buffer;
 			std::vector<GLuint> m_textureSlots;
-			ftgl::texture_atlas_t* m_FTAtlas;
-			ftgl::texture_font_t* m_FTFont;
 
 		public:
 			BatchRenderer2D();
@@ -42,7 +39,7 @@ namespace seng
 			void begin() override;
 			void end() override;
 			void submit(const Renderable2D *renderable) override;
-			void drawString(const std::string& text, const math::Vector3f position, const unsigned int color) override;
+			void drawString(const std::string& text, const math::Vector3f position, const Font& font, const unsigned int color) override;
 			void flush() override;
 
 		private:

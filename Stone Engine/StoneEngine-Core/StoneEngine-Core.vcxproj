@@ -247,6 +247,7 @@ copy "$(SolutionDir)..\Dependencies\bin64\*" "$(OutputPath)"</Command>
     <ClCompile Include="src\graphics\buffers\Buffer.cpp" />
     <ClCompile Include="src\graphics\buffers\IndexBuffer.cpp" />
     <ClCompile Include="src\graphics\buffers\VertexArray.cpp" />
+    <ClCompile Include="src\graphics\Font.cpp" />
     <ClCompile Include="src\graphics\layers\Group.cpp" />
     <ClCompile Include="src\graphics\layers\Layer.cpp" />
     <ClCompile Include="src\graphics\layers\TileLayer.cpp" />
@@ -281,6 +282,7 @@ copy "$(SolutionDir)..\Dependencies\bin64\*" "$(OutputPath)"</Command>
     <ClInclude Include="src\graphics\buffers\Buffer.h" />
     <ClInclude Include="src\graphics\buffers\IndexBuffer.h" />
     <ClInclude Include="src\graphics\buffers\VertexArray.h" />
+    <ClInclude Include="src\graphics\Font.h" />
     <ClInclude Include="src\graphics\layers\Group.h" />
     <ClInclude Include="src\graphics\layers\Layer.h" />
     <ClInclude Include="src\graphics\layers\TileLayer.h" />
